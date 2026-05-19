@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recipe API — Delicious Data at Your Fingertips</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:     #FBF7F0;
+      --warm-off:  #F3EDE3;
+      --sand:      #E8DDC8;
+      --tan:       #C9B89A;
+      --bark:      #8B6F4E;
+      --espresso:  #3D2B1F;
+      --charcoal:  #1E1614;
+      --tomato:    #D94F3D;
+      --tomato-lt: #F5E8E6;
+      --tomato-dk: #A8372A;
+      --herb:      #3B6E47;
+      --herb-lt:   #E4F0E7;
+      --saffron:   #E8A020;
+      --saffron-lt:#FEF3DC;
+      --sky:       #2D7CC8;
+      --sky-lt:    #E3EEF8;
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+      --shadow-sm: 0 2px 8px rgba(61,43,31,0.08);
+      --shadow-md: 0 6px 24px rgba(61,43,31,0.12);
+      --shadow-lg: 0 16px 48px rgba(61,43,31,0.16);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--cream);
+      color: var(--espresso);
+      line-height: 1.6;
+    }
+
+    /* ─── NAV ─────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(251,247,240,0.94);
+      backdrop-filter: blur(12px);
+      border-bottom: 1.5px solid var(--sand);
+      padding: 0 5%;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: inherit;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      background: var(--tomato);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+    .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--espresso);
+    }
+    .logo-text span { color: var(--tomato); }
+    nav ul {
+      display: flex; align-items: center;
+      list-style: none; gap: 2rem;
+    }
+    nav ul a {
+      text-decoration: none; color: var(--bark);
+      font-size: 0.9rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav ul a:hover { color: var(--tomato); }
+    .btn-nav {
+      background: var(--tomato); color: #fff !important;
+      padding: 8px 20px; border-radius: var(--radius-sm);
+      font-weight: 600 !important; transition: background 0.2s !important;
+    }
+    .btn-nav:hover { background: var(--tomato-dk) !important; color: #fff !important; }
+
+    /* ─── HERO ────────────────────────────────────── */
+    .hero {
+      padding: 100px 5% 80px;
+      background: linear-gradient(160deg, var(--cream) 55%, var(--warm-off) 100%);
+      overflow: hidden; position: relative;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--saffron-lt) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; bottom: -60px; left: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--herb-lt) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--herb-lt); color: var(--herb);
+      border: 1px solid rgba(59,110,71,0.2);
+      padding: 5px 14px; border-radius: 20px;
+      font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.04em; text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .hero-badge::before { content: '●'; font-size: 0.5rem; }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      line-height: 1.15; color: var(--charcoal);
+      margin-bottom: 1.2rem;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--tomato);
+    }
+    .hero p {
+      font-size: 1.05rem; color: var(--bark);
+      max-width: 480px; margin-bottom: 2rem; line-height: 1.75;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--tomato); color: #fff;
+      padding: 13px 28px; border-radius: var(--radius-sm);
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      border: none; cursor: pointer;
+      box-shadow: 0 4px 16px rgba(217,79,61,0.35);
+      transition: transform 0.18s, box-shadow 0.18s, background 0.18s;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(217,79,61,0.4);
+      background: var(--tomato-dk);
+    }
+    .btn-secondary {
+      background: transparent; color: var(--espresso);
+      padding: 13px 28px; border-radius: var(--radius-sm);
+      text-decoration: none; font-weight: 600; font-size: 0.95rem;
+      border: 1.5px solid var(--sand); cursor: pointer;
+      transition: border-color 0.18s, background 0.18s;
+    }
+    .btn-secondary:hover { border-color: var(--bark); background: var(--warm-off); }
+
+    /* Hero code card */
+    .hero-code-wrap { position: relative; }
+    .hero-code-card {
+      background: var(--charcoal);
+      border-radius: var(--radius-lg);
+      padding: 28px 28px 22px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .hero-code-card::before {
+      content: '';
+      position: absolute; top: 0; right: 0;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle at top right, rgba(217,79,61,0.15), transparent 60%);
+      pointer-events: none;
+    }
+    .card-dots {
+      display: flex; gap: 6px; margin-bottom: 16px;
+    }
+    .card-dots span {
+      width: 12px; height: 12px; border-radius: 50%;
+    }
+    .card-dots span:nth-child(1) { background: #FF5F57; }
+    .card-dots span:nth-child(2) { background: #FFBD2E; }
+    .card-dots span:nth-child(3) { background: #28C840; }
+    pre {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem; line-height: 1.7;
+      white-space: pre; overflow-x: auto;
+    }
+    .c-key   { color: #7FCFFF; }
+    .c-str   { color: #F5A97F; }
+    .c-num   { color: #AEDAAB; }
+    .c-op    { color: #9D7FD4; }
+    .c-plain { color: #CFD3D4; }
+    .c-comment { color: #667280; }
+
+    /* Floating stat pills */
+    .hero-stat-pill {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--sand);
+      border-radius: 40px;
+      padding: 8px 16px;
+      box-shadow: var(--shadow-md);
+      display: flex; align-items: center; gap: 8px;
+      font-size: 0.82rem; font-weight: 600;
+      color: var(--espresso);
+      animation: float 4s ease-in-out infinite;
+    }
+    .hero-stat-pill.pill-1 { top: -16px; left: 30px; animation-delay: 0s; }
+    .hero-stat-pill.pill-2 { bottom: -14px; right: 20px; animation-delay: 1.5s; }
+    .pill-emoji { font-size: 1rem; }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    /* ─── STATS BAR ───────────────────────────────── */
+    .stats-bar {
+      background: var(--espresso);
+      padding: 28px 5%;
+    }
+    .stats-bar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem; text-align: center;
+    }
+    .stat-item { color: #fff; }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem; font-weight: 700;
+      color: var(--saffron); display: block;
+    }
+    .stat-label { font-size: 0.83rem; color: var(--tan); margin-top: 2px; }
+
+    /* ─── SECTION SHARED ──────────────────────────── */
+    section { padding: 90px 5%; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-tag {
+      display: inline-block;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--tomato); margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      color: var(--charcoal); line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: 1rem; color: var(--bark);
+      max-width: 560px; line-height: 1.75;
+      margin-bottom: 3rem;
+    }
+
+    /* ─── FEATURES ────────────────────────────────── */
+    #features { background: var(--warm-off); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .feature-card {
+      background: #fff;
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      transition: transform 0.22s, box-shadow 0.22s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .feature-icon {
+      width: 52px; height: 52px;
+      border-radius: var(--radius-md);
+      display: flex; align-items: center;
+      justify-content: center;
+      font-size: 1.5rem; margin-bottom: 1.2rem;
+    }
+    .feature-icon.red    { background: var(--tomato-lt); }
+    .feature-icon.green  { background: var(--herb-lt); }
+    .feature-icon.yellow { background: var(--saffron-lt); }
+    .feature-icon.blue   { background: var(--sky-lt); }
+    .feature-card h3 {
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--charcoal); margin-bottom: 0.5rem;
+    }
+    .feature-card p { font-size: 0.9rem; color: var(--bark); line-height: 1.65; }
+
+    /* ─── ENDPOINTS ───────────────────────────────── */
+    #endpoints { background: var(--cream); }
+    .endpoints-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .endpoint-card {
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-md);
+      padding: 1.4rem 1.6rem;
+      display: flex; align-items: flex-start; gap: 1.1rem;
+      background: #fff;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .endpoint-card:hover {
+      border-color: var(--tan);
+      box-shadow: var(--shadow-sm);
+    }
+    .method-badge {
+      font-family: 'Courier New', monospace;
+      font-size: 0.72rem; font-weight: 700;
+      padding: 3px 8px; border-radius: 4px;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .method-get    { background: var(--herb-lt); color: var(--herb); }
+    .method-post   { background: var(--sky-lt);   color: var(--sky); }
+    .method-delete { background: var(--tomato-lt); color: var(--tomato); }
+    .endpoint-info h4 {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem; color: var(--charcoal); margin-bottom: 4px;
+    }
+    .endpoint-info p { font-size: 0.83rem; color: var(--bark); }
+
+    /* ─── HOW IT WORKS ────────────────────────────── */
+    #how { background: var(--warm-off); }
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+    .step {
+      text-align: center; position: relative;
+    }
+    .step::after {
+      content: '→';
+      position: absolute; top: 20px; right: -1rem;
+      font-size: 1.4rem; color: var(--sand);
+    }
+    .step:last-child::after { display: none; }
+    .step-num {
+      width: 52px; height: 52px;
+      background: var(--espresso); color: #fff;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      margin: 0 auto 1rem;
+    }
+    .step h3 { font-size: 1rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.4rem; }
+    .step p  { font-size: 0.85rem; color: var(--bark); line-height: 1.6; }
+
+    /* ─── PRICING ─────────────────────────────────── */
+    #pricing { background: var(--cream); }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; align-items: start;
+    }
+    .pricing-card {
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-lg);
+      padding: 2rem 1.75rem;
+      background: #fff;
+      position: relative;
+    }
+    .pricing-card.featured {
+      border-color: var(--tomato);
+      border-width: 2px;
+      box-shadow: var(--shadow-md);
+    }
+    .popular-badge {
+      position: absolute; top: -14px; left: 50%;
+      transform: translateX(-50%);
+      background: var(--tomato); color: #fff;
+      font-size: 0.72rem; font-weight: 700;
+      padding: 4px 14px; border-radius: 20px;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .plan-name {
+      font-size: 0.8rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--bark);
+      margin-bottom: 0.5rem;
+    }
+    .plan-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem; font-weight: 700; color: var(--charcoal);
+      line-height: 1;
+    }
+    .plan-price sup { font-size: 1.2rem; vertical-align: super; }
+    .plan-price sub { font-size: 0.9rem; color: var(--bark); font-family: 'DM Sans', sans-serif; }
+    .plan-desc { font-size: 0.85rem; color: var(--bark); margin: 0.7rem 0 1.4rem; }
+    .plan-features { list-style: none; margin-bottom: 1.6rem; }
+    .plan-features li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 0.88rem; color: var(--espresso);
+      padding: 5px 0;
+    }
+    .plan-features li::before {
+      content: '✓';
+      color: var(--herb); font-weight: 700;
+      flex-shrink: 0; margin-top: 1px;
+    }
+    .btn-plan {
+      display: block; width: 100%;
+      text-align: center;
+      padding: 12px; border-radius: var(--radius-sm);
+      font-weight: 600; font-size: 0.9rem;
+      text-decoration: none; cursor: pointer; border: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-plan-primary {
+      background: var(--tomato); color: #fff;
+      box-shadow: 0 4px 12px rgba(217,79,61,0.3);
+    }
+    .btn-plan-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(217,79,61,0.38); }
+    .btn-plan-outline {
+      background: transparent; color: var(--espresso);
+      border: 1.5px solid var(--sand);
+    }
+    .btn-plan-outline:hover { border-color: var(--bark); background: var(--warm-off); }
+
+    /* ─── SAMPLE RESPONSE ─────────────────────────── */
+    #sample { background: var(--espresso); }
+    #sample .section-title { color: var(--cream); }
+    #sample .section-sub   { color: var(--tan); }
+    #sample .section-tag   { color: var(--saffron); }
+    .sample-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2rem; align-items: start;
+    }
+    .sample-code-card {
+      background: #2A1E18;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .sample-endpoint {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 16px;
+    }
+    .sample-url {
+      font-family: 'Courier New', monospace;
+      font-size: 0.8rem; color: #CFD3D4;
+      background: rgba(255,255,255,0.06);
+      padding: 6px 12px; border-radius: 6px;
+    }
+    .sample-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem; color: var(--cream);
+      margin-bottom: 0.8rem;
+    }
+    .sample-info p { color: var(--tan); font-size: 0.92rem; line-height: 1.7; margin-bottom: 1.4rem; }
+    .sample-pill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sample-pill {
+      background: rgba(255,255,255,0.07);
+      color: var(--tan);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 4px 12px; border-radius: 20px;
+      font-size: 0.8rem;
+    }
+
+    /* ─── FAQ ─────────────────────────────────────── */
+    #faq { background: var(--warm-off); }
+    .faq-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .faq-item {
+      background: #fff;
+      border: 1.5px solid var(--sand);
+      border-radius: var(--radius-md);
+      padding: 1.4rem 1.6rem;
+    }
+    .faq-item h4 { font-size: 0.95rem; font-weight: 600; color: var(--charcoal); margin-bottom: 0.5rem; }
+    .faq-item p  { font-size: 0.88rem; color: var(--bark); line-height: 1.65; }
+
+    /* ─── CTA BAND ────────────────────────────────── */
+    .cta-band {
+      background: var(--tomato);
+      padding: 70px 5%;
+      text-align: center;
+    }
+    .cta-band h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: #fff; margin-bottom: 0.8rem;
+    }
+    .cta-band p { color: rgba(255,255,255,0.82); font-size: 1rem; margin-bottom: 2rem; }
+    .cta-band .btn-white {
+      background: #fff; color: var(--tomato);
+      padding: 14px 36px; border-radius: var(--radius-sm);
+      text-decoration: none; font-weight: 700; font-size: 1rem;
+      display: inline-block;
+      transition: transform 0.18s, box-shadow 0.18s;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .cta-band .btn-white:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+    /* ─── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--charcoal);
+      color: var(--tan);
+      padding: 60px 5% 30px;
+    }
+    .footer-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem; margin-bottom: 3rem;
+    }
+    .footer-brand .logo { margin-bottom: 1rem; }
+    .footer-brand .logo-text { color: var(--cream); }
+    .footer-brand p { font-size: 0.85rem; color: var(--tan); line-height: 1.7; }
+    .footer-col h5 {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul a {
+      text-decoration: none; color: var(--tan);
+      font-size: 0.87rem;
+      transition: color 0.18s;
+    }
+    .footer-col ul a:hover { color: var(--saffron); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 1.5rem;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-size: 0.82rem; color: #5C4C42; }
+    .footer-bottom-links { display: flex; gap: 1.5rem; }
+    .footer-bottom-links a {
+      font-size: 0.82rem; color: #5C4C42;
+      text-decoration: none; transition: color 0.18s;
+    }
+    .footer-bottom-links a:hover { color: var(--tan); }
+
+    /* ─── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 900px) {
+      .hero-inner, .sample-grid { grid-template-columns: 1fr; }
+      .features-grid, .steps-grid, .pricing-grid { grid-template-columns: 1fr 1fr; }
+      .endpoints-grid, .faq-grid { grid-template-columns: 1fr; }
+      .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+      nav ul { display: none; }
+    }
+    @media (max-width: 560px) {
+      .features-grid, .steps-grid, .pricing-grid { grid-template-columns: 1fr; }
+      .stats-bar-inner { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ════════════════ NAV ════════════════ -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🍳</div>
+      <span class="logo-text">Recipe<span>API</span></span>
+    </a>
+    <ul>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#endpoints">Endpoints</a></li>
+      <li><a href="#how">How it Works</a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#sample">Docs</a></li>
+      <li><a href="#" class="btn-nav">Get API Key</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ════════════════ HERO ════════════════ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">Now with AI-powered suggestions</div>
+      <h1>Delicious Data,<br/><em>Served Fresh</em><br/>via API</h1>
+      <p>Access over 500,000 recipes, nutritional data, ingredient substitutions, and meal planning tools — all through one beautifully simple REST API.</p>
+      <div class="hero-actions">
+        <a href="#" class="btn-primary">Start for Free →</a>
+        <a href="#sample" class="btn-secondary">View the Docs</a>
+      </div>
+    </div>
+    <div class="hero-code-wrap">
+      <div class="hero-code-card">
+        <div class="card-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <pre><span class="c-comment"># Fetch a recipe by ID</span>
+<span class="c-key">GET</span> <span class="c-str">/v1/recipes/pasta-carbonara</span>
+
+<span class="c-comment">Response 200 OK</span>
+<span class="c-op">{</span>
+  <span class="c-key">"id"</span><span class="c-plain">: </span><span class="c-str">"pasta-carbonara"</span><span class="c-plain">,</span>
+  <span class="c-key">"title"</span><span class="c-plain">: </span><span class="c-str">"Classic Carbonara"</span><span class="c-plain">,</span>
+  <span class="c-key">"cuisine"</span><span class="c-plain">: </span><span class="c-str">"Italian"</span><span class="c-plain">,</span>
+  <span class="c-key">"prep_time"</span><span class="c-plain">: </span><span class="c-num">15</span><span class="c-plain">,</span>
+  <span class="c-key">"cook_time"</span><span class="c-plain">: </span><span class="c-num">20</span><span class="c-plain">,</span>
+  <span class="c-key">"servings"</span><span class="c-plain">: </span><span class="c-num">4</span><span class="c-plain">,</span>
+  <span class="c-key">"calories"</span><span class="c-plain">: </span><span class="c-num">620</span><span class="c-plain">,</span>
+  <span class="c-key">"ingredients"</span><span class="c-plain">: [</span><span class="c-str">...</span><span class="c-plain">],</span>
+  <span class="c-key">"steps"</span><span class="c-plain">: [</span><span class="c-str">...</span><span class="c-plain">]</span>
+<span class="c-op">}</span></pre>
+      </div>
+      <div class="hero-stat-pill pill-1">
+        <span class="pill-emoji">🥗</span> 500K+ Recipes
+      </div>
+      <div class="hero-stat-pill pill-2">
+        <span class="pill-emoji">⚡</span> &lt;80ms Response
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ STATS BAR ════════════════ -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item">
+      <span class="stat-num">500K+</span>
+      <span class="stat-label">Recipes in database</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">99.98%</span>
+      <span class="stat-label">Uptime SLA</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">&lt; 80ms</span>
+      <span class="stat-label">Average latency</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">45+</span>
+      <span class="stat-label">Global cuisines</span>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ FEATURES ════════════════ -->
+<section id="features">
+  <div class="section-inner">
+    <span class="section-tag">Why Recipe API</span>
+    <h2 class="section-title">Everything you need to build<br/>food-first products</h2>
+    <p class="section-sub">From simple recipe search to deep nutritional analysis and AI-driven meal planning, Recipe API covers every ingredient.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon red">🔍</div>
+        <h3>Powerful Search</h3>
+        <p>Filter by cuisine, dietary tags, ingredients on hand, cook time, or calorie range. Full-text and semantic search supported out of the box.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon green">🥦</div>
+        <h3>Nutritional Data</h3>
+        <p>Per-serving macros, vitamins, minerals, and allergen flags on every recipe. Powered by USDA data and verified by dietitians.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon yellow">🔄</div>
+        <h3>Ingredient Substitutions</h3>
+        <p>Ask for smart swaps when an ingredient is missing. Get alternatives with adjusted quantities and flavour-impact notes.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon blue">📅</div>
+        <h3>Meal Planning</h3>
+        <p>Generate weekly meal plans by calorie target, dietary preference, or budget. Each plan includes a consolidated grocery list.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon red">📸</div>
+        <h3>Recipe Images</h3>
+        <p>High-resolution images for every recipe in multiple sizes — thumbnail, card, hero — served from a global CDN at no extra cost.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon green">⚙️</div>
+        <h3>Scale & Convert</h3>
+        <p>Automatically scale ingredient quantities to any serving count and convert between metric and imperial units on the fly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ ENDPOINTS ════════════════ -->
+<section id="endpoints">
+  <div class="section-inner">
+    <span class="section-tag">API Reference</span>
+    <h2 class="section-title">Clean, RESTful endpoints<br/>ready in minutes</h2>
+    <p class="section-sub">Explore the core endpoints. Full OpenAPI spec available in the docs portal.</p>
+    <div class="endpoints-grid">
+      <div class="endpoint-card">
+        <span class="method-badge method-get">GET</span>
+        <div class="endpoint-info">
+          <h4>/v1/recipes</h4>
+          <p>List and search recipes with filters for cuisine, diet, time, and more.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-get">GET</span>
+        <div class="endpoint-info">
+          <h4>/v1/recipes/{id}</h4>
+          <p>Retrieve a single recipe with full details, steps, and nutritional data.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-post">POST</span>
+        <div class="endpoint-info">
+          <h4>/v1/recipes/search</h4>
+          <p>Semantic search — find recipes by description or ingredients you have.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-get">GET</span>
+        <div class="endpoint-info">
+          <h4>/v1/recipes/{id}/nutrition</h4>
+          <p>Detailed nutritional breakdown per serving: macros, vitamins, allergens.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-post">POST</span>
+        <div class="endpoint-info">
+          <h4>/v1/substitutions</h4>
+          <p>Get ingredient substitutions with quantity ratios and flavour notes.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-post">POST</span>
+        <div class="endpoint-info">
+          <h4>/v1/meal-plans</h4>
+          <p>Generate a weekly meal plan by calories, budget, or dietary preference.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-get">GET</span>
+        <div class="endpoint-info">
+          <h4>/v1/cuisines</h4>
+          <p>Browse all 45+ supported cuisine types with region metadata.</p>
+        </div>
+      </div>
+      <div class="endpoint-card">
+        <span class="method-badge method-delete">DEL</span>
+        <div class="endpoint-info">
+          <h4>/v1/saved/{id}</h4>
+          <p>Remove a recipe from a user's saved collection (user-scoped tokens).</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ HOW IT WORKS ════════════════ -->
+<section id="how">
+  <div class="section-inner">
+    <span class="section-tag">Getting Started</span>
+    <h2 class="section-title">Up and running in 4 steps</h2>
+    <p class="section-sub">From sign-up to your first API response in under five minutes.</p>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Create Account</h3>
+        <p>Sign up for free — no credit card required for the Starter plan.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Get API Key</h3>
+        <p>Copy your unique API key from the developer dashboard.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Make a Request</h3>
+        <p>Call any endpoint with your key in the <code style="background:var(--sand);padding:1px 5px;border-radius:3px;font-size:0.82rem">Authorization</code> header.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Build & Ship</h3>
+        <p>Integrate JSON responses into your app and go live — it's that simple.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ SAMPLE RESPONSE ════════════════ -->
+<section id="sample">
+  <div class="section-inner">
+    <div class="sample-grid">
+      <div>
+        <span class="section-tag">Live Example</span>
+        <div class="sample-info">
+          <h3>See the data richness for yourself</h3>
+          <p>Every response is structured, predictable, and packed with actionable data — from step-by-step instructions to per-ingredient nutritional breakdowns.</p>
+          <div class="sample-pill-list">
+            <span class="sample-pill">JSON responses</span>
+            <span class="sample-pill">Consistent schema</span>
+            <span class="sample-pill">ISO 8601 dates</span>
+            <span class="sample-pill">Pagination built-in</span>
+            <span class="sample-pill">Webhooks</span>
+            <span class="sample-pill">Rate-limit headers</span>
+          </div>
+        </div>
+      </div>
+      <div class="sample-code-card">
+        <div class="sample-endpoint">
+          <span class="method-badge method-get" style="background:rgba(59,110,71,0.3);color:#7FCFFF">GET</span>
+          <span class="sample-url">/v1/recipes/pasta-carbonara/nutrition</span>
+        </div>
+        <pre><span class="c-op">{</span>
+  <span class="c-key">"servings"</span><span class="c-plain">: </span><span class="c-num">4</span><span class="c-plain">,</span>
+  <span class="c-key">"per_serving"</span><span class="c-plain">: </span><span class="c-op">{</span>
+    <span class="c-key">"calories"</span><span class="c-plain">:   </span><span class="c-num">620</span><span class="c-plain">,</span>
+    <span class="c-key">"protein_g"</span><span class="c-plain">:  </span><span class="c-num">28.4</span><span class="c-plain">,</span>
+    <span class="c-key">"carbs_g"</span><span class="c-plain">:    </span><span class="c-num">72.1</span><span class="c-plain">,</span>
+    <span class="c-key">"fat_g"</span><span class="c-plain">:      </span><span class="c-num">24.8</span><span class="c-plain">,</span>
+    <span class="c-key">"fibre_g"</span><span class="c-plain">:    </span><span class="c-num">3.2</span><span class="c-plain">,</span>
+    <span class="c-key">"sodium_mg"</span><span class="c-plain">:  </span><span class="c-num">780</span>
+  <span class="c-op">}</span><span class="c-plain">,</span>
+  <span class="c-key">"allergens"</span><span class="c-plain">: [</span>
+    <span class="c-str">"gluten"</span><span class="c-plain">, </span><span class="c-str">"eggs"</span><span class="c-plain">, </span><span class="c-str">"dairy"</span>
+  <span class="c-plain">],</span>
+  <span class="c-key">"diet_tags"</span><span class="c-plain">: [</span><span class="c-str">"vegetarian"</span><span class="c-plain">]</span>
+<span class="c-op">}</span></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ PRICING ════════════════ -->
+<section id="pricing">
+  <div class="section-inner">
+    <span class="section-tag">Plans &amp; Pricing</span>
+    <h2 class="section-title">Simple pricing,<br/>no surprises</h2>
+    <p class="section-sub">Start free, scale as you grow. All plans include full API access with no feature-gating.</p>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div class="plan-name">Starter</div>
+        <div class="plan-price"><sup>$</sup>0<sub>/mo</sub></div>
+        <p class="plan-desc">Perfect for side projects and prototypes.</p>
+        <ul class="plan-features">
+          <li>1,000 requests / month</li>
+          <li>All core endpoints</li>
+          <li>Community support</li>
+          <li>JSON responses</li>
+          <li>Basic rate limiting</li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-outline">Get Started Free</a>
+      </div>
+      <div class="pricing-card featured">
+        <div class="popular-badge">Most Popular</div>
+        <div class="plan-name">Pro</div>
+        <div class="plan-price"><sup>$</sup>29<sub>/mo</sub></div>
+        <p class="plan-desc">For growing apps with real users.</p>
+        <ul class="plan-features">
+          <li>100,000 requests / month</li>
+          <li>All endpoints incl. meal plans</li>
+          <li>Priority email support</li>
+          <li>Webhooks &amp; event streams</li>
+          <li>Nutritional deep-dive</li>
+          <li>Ingredient substitutions</li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-primary">Start 14-day Free Trial</a>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Enterprise</div>
+        <div class="plan-price" style="font-size:2rem">Custom</div>
+        <p class="plan-desc">For high-volume and custom requirements.</p>
+        <ul class="plan-features">
+          <li>Unlimited requests</li>
+          <li>Dedicated infrastructure</li>
+          <li>SLA 99.99% uptime</li>
+          <li>Custom data ingestion</li>
+          <li>Slack + phone support</li>
+          <li>GDPR / HIPAA options</li>
+        </ul>
+        <a href="#" class="btn-plan btn-plan-outline">Contact Sales</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FAQ ════════════════ -->
+<section id="faq">
+  <div class="section-inner">
+    <span class="section-tag">FAQ</span>
+    <h2 class="section-title">Common questions</h2>
+    <p class="section-sub">Can't find what you're looking for? Reach out to our team.</p>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h4>Do I need a credit card to start?</h4>
+        <p>No. The Starter plan is completely free and requires only an email address to sign up. You'll only enter billing details if you upgrade.</p>
+      </div>
+      <div class="faq-item">
+        <h4>How do I authenticate requests?</h4>
+        <p>Pass your API key as a Bearer token in the <code style="background:var(--warm-off);padding:1px 5px;border-radius:3px">Authorization</code> header. Keys are generated instantly in the dashboard.</p>
+      </div>
+      <div class="faq-item">
+        <h4>What happens if I exceed my limit?</h4>
+        <p>Requests return a <code style="background:var(--warm-off);padding:1px 5px;border-radius:3px">429 Too Many Requests</code> response. You can upgrade any time or purchase add-on bundles without downtime.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Is the data updated regularly?</h4>
+        <p>Yes — our culinary team adds hundreds of new recipes weekly, and nutritional data is synced with the USDA FoodData Central database monthly.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Can I use Recipe API in a commercial product?</h4>
+        <p>Absolutely. All paid plans include a commercial use license. Attribution is appreciated but not required.</p>
+      </div>
+      <div class="faq-item">
+        <h4>Do you offer SDKs?</h4>
+        <p>We provide official SDKs for Node.js, Python, Ruby, and PHP. Community SDKs exist for Go, Rust, and Swift — all linked in the docs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ CTA BAND ════════════════ -->
+<div class="cta-band">
+  <h2>Ready to cook up something great?</h2>
+  <p>Join 12,000+ developers building food experiences with Recipe API.</p>
+  <a href="#" class="btn-white">Get Your Free API Key →</a>
+</div>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#" class="logo">
+        <div class="logo-icon">🍳</div>
+        <span class="logo-text">Recipe<span>API</span></span>
+      </a>
+      <p>The most comprehensive recipe and nutrition API on the web. Trusted by startups and enterprises alike.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Product</h5>
+      <ul>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#endpoints">Endpoints</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#">Changelog</a></li>
+        <li><a href="#">Status</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Developers</h5>
+      <ul>
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">API Reference</a></li>
+        <li><a href="#">SDKs</a></li>
+        <li><a href="#">Postman Collection</a></li>
+        <li><a href="#">GitHub</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+        <li><a href="#">Partners</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Recipe API. All rights reserved.</p>
+    <div class="footer-bottom-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
