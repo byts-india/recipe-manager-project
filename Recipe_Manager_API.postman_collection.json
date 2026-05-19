@@ -1,9 +1,11 @@
 {
   "info": {
-    "_postman_id": "recipe-manager-api-collection",
+    "_postman_id": "a7dae251-d250-4041-a22e-79c7b22ce5a3",
     "name": "Recipe Manager API",
     "description": "Complete REST API collection for Recipe Manager application with Auth, User, Recipe, RecipeCategory, and Steps endpoints",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "21419560",
+    "_collection_link": "https://go.postman.co/collection/21419560-a7dae251-d250-4041-a22e-79c7b22ce5a3?source=collection_link"
   },
   "item": [
     {
@@ -25,8 +27,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/register",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "register"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
             },
             "description": "Register a new user account"
           },
@@ -48,8 +55,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/auth/login",
-              "host": ["{{baseUrl}}"],
-              "path": ["auth", "login"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             },
             "description": "Login with email and password"
           },
@@ -63,12 +75,27 @@
         {
           "name": "Get All Users",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNzc5MTg0NjU3LCJleHAiOjE3NzkxODU4NTd9.snr_bly2wW2Fp7oPdIpG8ua_3KTywL8l1hG4iGahP4A",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/user/all",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "all"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "all"
+              ]
             },
             "description": "Fetch all users"
           },
@@ -77,12 +104,27 @@
         {
           "name": "Get User By ID",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/user/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "{{userId}}"]
+              "raw": "{{baseUrl}}/user/6a0c2f1935e4f9e5ec088c4b",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "6a0c2f1935e4f9e5ec088c4b"
+              ]
             },
             "description": "Fetch a specific user by ID"
           },
@@ -90,7 +132,20 @@
         },
         {
           "name": "Get Users By Age Range",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [
               {
@@ -100,12 +155,23 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"fromAge\": 20,\n  \"toAge\": 35\n}"
+              "raw": "{\r\n    \"fromAge\": 0,\r\n    \"toAge\": 50\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
             },
             "url": {
               "raw": "{{baseUrl}}/user/all/age",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "all", "age"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "all",
+                "age"
+              ]
             },
             "description": "Fetch users within an age range"
           },
@@ -127,8 +193,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/user/email/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "email", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "email",
+                "{{userId}}"
+              ]
             },
             "description": "Update user email"
           },
@@ -150,8 +222,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/user/name/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "name", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "name",
+                "{{userId}}"
+              ]
             },
             "description": "Update user first and last name"
           },
@@ -173,8 +251,14 @@
             },
             "url": {
               "raw": "{{baseUrl}}/user/age/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "age", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "age",
+                "{{userId}}"
+              ]
             },
             "description": "Update user age"
           },
@@ -187,8 +271,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/user/{{userId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["user", "{{userId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "user",
+                "{{userId}}"
+              ]
             },
             "description": "Delete a user by ID"
           },
@@ -215,8 +304,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/recipe-category/",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe-category", ""]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe-category",
+                ""
+              ]
             },
             "description": "Create a new recipe category"
           },
@@ -229,8 +323,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipe-category/all",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe-category", "all"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe-category",
+                "all"
+              ]
             },
             "description": "Fetch all recipe categories"
           },
@@ -243,8 +342,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipe-category/{{recipeCategoryId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe-category", "{{recipeCategoryId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe-category",
+                "{{recipeCategoryId}}"
+              ]
             },
             "description": "Fetch a specific recipe category by ID"
           },
@@ -266,8 +370,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/recipe-category/{{recipeCategoryId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe-category", "{{recipeCategoryId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe-category",
+                "{{recipeCategoryId}}"
+              ]
             },
             "description": "Update a recipe category"
           },
@@ -280,8 +389,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipe-category/{{recipeCategoryId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe-category", "{{recipeCategoryId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe-category",
+                "{{recipeCategoryId}}"
+              ]
             },
             "description": "Delete a recipe category by ID"
           },
@@ -308,8 +422,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/steps/",
-              "host": ["{{baseUrl}}"],
-              "path": ["steps", ""]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "steps",
+                ""
+              ]
             },
             "description": "Create a new recipe step"
           },
@@ -322,8 +441,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/steps/all",
-              "host": ["{{baseUrl}}"],
-              "path": ["steps", "all"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "steps",
+                "all"
+              ]
             },
             "description": "Fetch all recipe steps"
           },
@@ -336,8 +460,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/steps/{{stepId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["steps", "{{stepId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "steps",
+                "{{stepId}}"
+              ]
             },
             "description": "Fetch a specific step by ID"
           },
@@ -359,8 +488,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/steps/{{stepId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["steps", "{{stepId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "steps",
+                "{{stepId}}"
+              ]
             },
             "description": "Update a recipe step"
           },
@@ -373,8 +507,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/steps/{{stepId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["steps", "{{stepId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "steps",
+                "{{stepId}}"
+              ]
             },
             "description": "Delete a recipe step by ID"
           },
@@ -401,8 +540,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/recipe/",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe", ""]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe",
+                ""
+              ]
             },
             "description": "Create a new recipe"
           },
@@ -415,8 +559,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipe/all",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe", "all"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe",
+                "all"
+              ]
             },
             "description": "Fetch all recipes"
           },
@@ -429,8 +578,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipe/{{recipeId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe", "{{recipeId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe",
+                "{{recipeId}}"
+              ]
             },
             "description": "Fetch a specific recipe by ID"
           },
@@ -452,8 +606,13 @@
             },
             "url": {
               "raw": "{{baseUrl}}/recipe/{{recipeId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe", "{{recipeId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe",
+                "{{recipeId}}"
+              ]
             },
             "description": "Update a recipe"
           },
@@ -466,8 +625,13 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/recipe/{{recipeId}}",
-              "host": ["{{baseUrl}}"],
-              "path": ["recipe", "{{recipeId}}"]
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "recipe",
+                "{{recipeId}}"
+              ]
             },
             "description": "Delete a recipe by ID"
           },
