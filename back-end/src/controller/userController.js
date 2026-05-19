@@ -1,4 +1,4 @@
-const userService = require("../service/UserService");
+const userService = require("../service/userService");
 const { successResponse, failureResponse } = require("../utils/ResponseUtil");
 
 module.exports.register = async (req, res) => {
@@ -11,6 +11,7 @@ module.exports.register = async (req, res) => {
     failureResponse(res, error.message, 401);
   }
 };
+
 module.exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -21,3 +22,68 @@ module.exports.login = async (req, res) => {
     failureResponse(res, error.message, 401);
   }
 };
+
+module.exports.updateEmail = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { email } = req.body;
+    await userService.updateEmail(id, email);
+    successResponse(res, "email is updated", null, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};
+module.exports.updateName = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { firstName, lastName } = req.body;
+    await userService.updateName(id, { firstName, lastName });
+    successResponse(res, "name is updated", null, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};
+module.exports.updateAge = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { age } = req.body;
+    await userService.updateAge(id, age);
+    successResponse(res, "age is updated", null, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};
+module.exports.deleteUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await userService.deleteUser(id);
+    successResponse(res, "user has been deleted", null, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};
+module.exports.getAll = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const users = await userService.getAllUser(id);
+    successResponse(res, "fetched all users", users, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};
+module.exports.getById = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await userService.getUserById(id);
+    successResponse(res, "fetched your user by id", user, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};
+
