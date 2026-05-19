@@ -37,13 +37,13 @@ async function deleteUser(id) {
   await User.findByIdAndDelete(id);
 }
 async function getAllUser() {
-  await User.find().select({ password: 0 });
+  return await User.find().select({password: 0});
 }
 async function getUserById(id) {
-  await User.findById(id).select({ password: 0 });
+  return await User.findById(id).select({ password: 0 });
 }
 async function getByAge(fromAge, toAge) {
-  await User.find({
+  return await User.find({
     age: { $gte: fromAge, $lte: toAge },
   });
 }

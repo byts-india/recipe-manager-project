@@ -7,6 +7,7 @@ const userRoute = require("./routes/userRoutes");
 const recipeRoute = require("./routes/recipeRoutes");
 const recipeCategoryRoute = require("./routes/recipeCategoryRoutes");
 const stepsRoute = require("./routes/stepsRoutes");
+const verifyJwt = require("./middleware/verifyJwt");
 
 const app = express();
 
@@ -20,6 +21,9 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/auth", authRoute);
+
+app.use(verifyJwt);
+
 app.use("/user", userRoute);
 app.use("/recipe", recipeRoute);
 app.use("/recipe-category", recipeCategoryRoute);

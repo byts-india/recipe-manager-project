@@ -1,0 +1,516 @@
+{
+  "info": {
+    "_postman_id": "recipe-manager-api-collection",
+    "name": "Recipe Manager API",
+    "description": "Complete REST API collection for Recipe Manager application with Auth, User, Recipe, RecipeCategory, and Steps endpoints",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"age\": 28,\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "register"]
+            },
+            "description": "Register a new user account"
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"john.doe@example.com\",\n  \"password\": \"SecurePass123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["auth", "login"]
+            },
+            "description": "Login with email and password"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Get All Users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "all"]
+            },
+            "description": "Fetch all users"
+          },
+          "response": []
+        },
+        {
+          "name": "Get User By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "{{userId}}"]
+            },
+            "description": "Fetch a specific user by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Users By Age Range",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fromAge\": 20,\n  \"toAge\": 35\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/all/age",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "all", "age"]
+            },
+            "description": "Fetch users within an age range"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Email",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"newemail@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/email/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "email", "{{userId}}"]
+            },
+            "description": "Update user email"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Name",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/name/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "name", "{{userId}}"]
+            },
+            "description": "Update user first and last name"
+          },
+          "response": []
+        },
+        {
+          "name": "Update User Age",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"age\": 30\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/user/age/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "age", "{{userId}}"]
+            },
+            "description": "Update user age"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete User",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "{{userId}}"]
+            },
+            "description": "Delete a user by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Recipe Category",
+      "item": [
+        {
+          "name": "Create Recipe Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Desserts\",\n  \"description\": \"Sweet treats and dessert recipes\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recipe-category/",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe-category", ""]
+            },
+            "description": "Create a new recipe category"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Recipe Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipe-category/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe-category", "all"]
+            },
+            "description": "Fetch all recipe categories"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recipe Category By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipe-category/{{recipeCategoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe-category", "{{recipeCategoryId}}"]
+            },
+            "description": "Fetch a specific recipe category by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Recipe Category",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Appetizers\",\n  \"description\": \"Delicious appetizer and starter recipes\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recipe-category/{{recipeCategoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe-category", "{{recipeCategoryId}}"]
+            },
+            "description": "Update a recipe category"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe Category",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipe-category/{{recipeCategoryId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe-category", "{{recipeCategoryId}}"]
+            },
+            "description": "Delete a recipe category by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Steps",
+      "item": [
+        {
+          "name": "Create Step",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": 1,\n  \"description\": \"Preheat oven to 350°F (175°C)\",\n  \"category\": \"START\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/steps/",
+              "host": ["{{baseUrl}}"],
+              "path": ["steps", ""]
+            },
+            "description": "Create a new recipe step"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Steps",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/steps/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["steps", "all"]
+            },
+            "description": "Fetch all recipe steps"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Step By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/steps/{{stepId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["steps", "{{stepId}}"]
+            },
+            "description": "Fetch a specific step by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Step",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"order\": 2,\n  \"description\": \"Mix flour, sugar, and eggs in a bowl\",\n  \"category\": \"MID\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/steps/{{stepId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["steps", "{{stepId}}"]
+            },
+            "description": "Update a recipe step"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Step",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/steps/{{stepId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["steps", "{{stepId}}"]
+            },
+            "description": "Delete a recipe step by ID"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Recipe",
+      "item": [
+        {
+          "name": "Create Recipe",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Chocolate Chip Cookies\",\n  \"duration\": {\n    \"value\": 30,\n    \"units\": \"minutes\"\n  },\n  \"image\": \"https://example.com/cookies.jpg\",\n  \"ingredients\": [\n    \"2 cups all-purpose flour\",\n    \"1 cup butter\",\n    \"1 cup sugar\",\n    \"2 eggs\",\n    \"1 tsp vanilla extract\",\n    \"2 cups chocolate chips\"\n  ],\n  \"category_id\": \"{{recipeCategoryId}}\",\n  \"steps\": [\"{{stepId1}}\", \"{{stepId2}}\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recipe/",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe", ""]
+            },
+            "description": "Create a new recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Recipes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipe/all",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe", "all"]
+            },
+            "description": "Fetch all recipes"
+          },
+          "response": []
+        },
+        {
+          "name": "Get Recipe By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipe/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe", "{{recipeId}}"]
+            },
+            "description": "Fetch a specific recipe by ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Recipe",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Double Chocolate Chip Cookies\",\n  \"duration\": {\n    \"value\": 45,\n    \"units\": \"minutes\"\n  },\n  \"image\": \"https://example.com/double-chocolate-cookies.jpg\",\n  \"ingredients\": [\n    \"2.5 cups all-purpose flour\",\n    \"1.25 cups butter\",\n    \"1.25 cup sugar\",\n    \"2 eggs\",\n    \"1 tsp vanilla extract\",\n    \"2.5 cups chocolate chips\",\n    \"1 cup cocoa powder\"\n  ],\n  \"category_id\": \"{{recipeCategoryId}}\",\n  \"steps\": [\"{{stepId1}}\", \"{{stepId2}}\"]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/recipe/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe", "{{recipeId}}"]
+            },
+            "description": "Update a recipe"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Recipe",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/recipe/{{recipeId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["recipe", "{{recipeId}}"]
+            },
+            "description": "Delete a recipe by ID"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "user_id_here",
+      "type": "string"
+    },
+    {
+      "key": "recipeId",
+      "value": "recipe_id_here",
+      "type": "string"
+    },
+    {
+      "key": "recipeCategoryId",
+      "value": "category_id_here",
+      "type": "string"
+    },
+    {
+      "key": "stepId",
+      "value": "step_id_here",
+      "type": "string"
+    },
+    {
+      "key": "stepId1",
+      "value": "step_id_1_here",
+      "type": "string"
+    },
+    {
+      "key": "stepId2",
+      "value": "step_id_2_here",
+      "type": "string"
+    }
+  ]
+}
