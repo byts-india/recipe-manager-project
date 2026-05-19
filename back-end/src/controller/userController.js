@@ -87,3 +87,14 @@ module.exports.getById = async (req, res) => {
   }
 };
 
+module.exports.getByCondition = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const { fromAge, toAge } = req.body;
+    const users = await userService.getByAge(fromAge, toAge);
+    successResponse(res, "fetched your users with age range", users, 200);
+  } catch (error) {
+    console.log(err);
+    failureResponse(res, error.message, 500);
+  }
+};

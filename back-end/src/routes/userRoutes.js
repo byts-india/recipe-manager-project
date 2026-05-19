@@ -5,9 +5,10 @@ const router = express.Router();
 
 router.get("/:id", userController.getById);
 router.get("/all", userController.getAll);
-router.put("/email", userController.updateEmail);
-router.put("/name", userController.updateName);
-router.put("/age", userController.updateAge);
+router.get("/all/age", userController.getByCondition)
+router.put("/email/:id", userController.updateEmail);
+router.put("/name/:id", userController.updateName);
+router.put("/age/:id", userController.updateAge);
 router.delete("/:id", userController.deleteUser);
 
 module.exports = router;

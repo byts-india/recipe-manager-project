@@ -42,6 +42,11 @@ async function getAllUser() {
 async function getUserById(id) {
   await User.findById(id).select({ password: 0 });
 }
+async function getByAge(fromAge, toAge) {
+  await User.find({
+    age: { $gte: fromAge, $lte: toAge },
+  });
+}
 module.exports = {
   login,
   register,
@@ -51,4 +56,5 @@ module.exports = {
   deleteUser,
   getAllUser,
   getUserById,
+  getByAge,
 };
