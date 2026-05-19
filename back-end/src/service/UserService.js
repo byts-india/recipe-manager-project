@@ -19,5 +19,4 @@ async function login(email, password) {
         throw new Error("password is wrong");
     }
 }
-
 module.exports = { login, register };
