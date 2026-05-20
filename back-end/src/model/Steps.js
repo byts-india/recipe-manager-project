@@ -7,5 +7,5 @@ const stepsSchema = new mongoose.Schema({
   category: { type: String, enum: ["START", "MID", "END"] },
 });
 
-const Steps = mongoose.model("recipe", stepsSchema);
+const Steps = mongoose.model("steps", stepsSchema);
 module.exports = Steps;

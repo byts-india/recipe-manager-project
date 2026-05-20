@@ -9,9 +9,9 @@ const recipeSchema = new mongoose.Schema({
   },
   image: String,
   ingredients: [String],
-  category_id: mongoose.Schema.ObjectId,
+  category_id: { type: mongoose.Schema.ObjectId, ref:"recipe_category"},
   steps: [mongoose.Schema.ObjectId],
-  timestamps: true
+  timestamps: true,
 });
 const Recipe = mongoose.model("recipe", recipeSchema);
 module.exports = Recipe;

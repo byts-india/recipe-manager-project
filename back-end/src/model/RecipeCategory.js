@@ -6,5 +6,5 @@ const recipeCategorySchema = new mongoose.Schema({
   description: String,
 });
 
-const RecipeCategory = mongoose.model("recipe", recipeCategorySchema);
+const RecipeCategory = mongoose.model("recipe_category", recipeCategorySchema);
 module.exports = RecipeCategory;

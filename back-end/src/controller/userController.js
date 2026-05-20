@@ -15,6 +15,8 @@ module.exports.register = async (req, res) => {
 
 module.exports.login = async (req, res) => {
   try {
+    console.log(req.body);
+    console.log(req.payload);
     const { email, password } = req.body;
     await userService.login(email, password);
     const token = generateToken({
