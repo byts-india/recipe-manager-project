@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { login } from '../services/authService';
 import Swal from "sweetalert2";
 
@@ -87,6 +87,13 @@ export default function Login() {
                         </button>
 
                         {errMsg && <p className='text-red-400'>{errMsg}</p>}
+                        <hr />
+                        <p className='text-center'>
+                            Don't have an account, 
+                            <Link to="/register" >
+                                <span className='text-orange-600 hover:text-orange-700 font-semibold'>register</span>
+                            </Link>
+                        </p>
                     </form>
                 </div>
             </div>
