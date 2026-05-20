@@ -15,7 +15,7 @@ export default function Dashboard() {
   }, []);
 
   return (
-    <div className="">
+    <div className="flex justify-start flex-wrap gap-5">
       {items.map((value, idx) => {
         return <Card key={idx} data={value} />
       })}

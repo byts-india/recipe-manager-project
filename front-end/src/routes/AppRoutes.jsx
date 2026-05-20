@@ -6,21 +6,28 @@ import Dashboard from "../pages/Dashboard";
 import PrivateRoutes from "./PrivateRoutes";
 import Settings from "../pages/Settings";
 import DashboardLayout from "../layouts/DashboardLayout";
+import BannerLayout from "../layouts/BannerLayout";
+import ViewRecipe from "../pages/ViewRecipe";
 
 function AppRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<BannerLayout/>}>
+                <Route index element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+            </Route>
             <Route
                 path="/dashboard"
-                element={<PrivateRoutes>
+                element={
+                <PrivateRoutes>
                     <DashboardLayout />
                 </PrivateRoutes>}
             >
                 <Route index element={<Dashboard />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="recipe/:id" element={<ViewRecipe />} />
+
             </Route>
         </Routes>
     );

@@ -11,7 +11,7 @@ const recipeSchema = new mongoose.Schema(
     image: String,
     ingredients: [String],
     category_id: { type: mongoose.Schema.ObjectId, ref: "recipe_category" },
-    steps: [mongoose.Schema.ObjectId],
+    steps: [{ type: mongoose.Schema.ObjectId, ref: "steps" }],
   },
   {
     timestamps: true,

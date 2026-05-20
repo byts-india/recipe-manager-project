@@ -1,6 +1,13 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 export default function Card({ data }) {
+  const navigate = useNavigate();
+
+  function handleClick() {
+    navigate("/dashboard/recipe/" + data._id);
+  }
+
   return (
     <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
       {/* Image */}
@@ -31,7 +38,7 @@ export default function Card({ data }) {
         </ul>
 
         {/* Action */}
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200">
+        <button onClick={handleClick} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md transition duration-200">
           View Recipe
         </button>
       </div>
