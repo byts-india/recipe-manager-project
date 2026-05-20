@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { login } from '../services/authService';
 import Swal from "sweetalert2";
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../features/auth/authSlice';
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -10,21 +12,23 @@ export default function Login() {
     const [errMsg, setErrMsg] = useState("");
     const navigate = useNavigate();
 
+    const dispatch = useDispatch();
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
         if (email.trim() !== "" && password.trim() !== "") {
-            login(email, password).then((data) => {
-                if (data.success) {
+            login(email, password).then((response) => {
+                if (response.success) {
                     Swal.fire({
                         icon:"success",
                         text:"login successful.",
                         timer:2000,  
                     }).then(() => {
+                        dispatch(userLogin(response.data));
                         navigate("/dashboard");
                     });
                 } else {
-                    setErrMsg(data.message);
+                    setErrMsg(response.message);
                 }
             }).catch(err => {
                 Swal.fire({

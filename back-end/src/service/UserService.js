@@ -18,6 +18,7 @@ async function login(email, password) {
   if (!result) {
     throw new Error("password is wrong");
   }
+  return user;
 }
 async function updateEmail(id, newEmail) {
   await User.findByIdAndUpdate(id, { email: newEmail });

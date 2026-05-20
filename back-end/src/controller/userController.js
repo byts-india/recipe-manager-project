@@ -15,16 +15,19 @@ module.exports.register = async (req, res) => {
 
 module.exports.login = async (req, res) => {
   try {
-    console.log(req.body);
-    console.log(req.payload);
     const { email, password } = req.body;
-    await userService.login(email, password);
+    const userDetail = await userService.login(email, password);
     const token = generateToken({
       email: email,
     });
     res.status(200).json({
       success: true,
       message: "login is valid",
+      data: {
+        name: userDetail.name,
+        age: userDetail.age,
+        email: userDetail.email,
+      },
       token: token,
     });
   } catch (error) {

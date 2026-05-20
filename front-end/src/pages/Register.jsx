@@ -35,8 +35,8 @@ export default function Register() {
         }
 
         setLoading(true)
-        register(firstName, lastName, age, email, password).then((data) => {
-            if (data.success) {
+        register(firstName, lastName, age, email, password).then((response) => {
+            if (response.success) {
                 Swal.fire({
                     icon: "success",
                     title: "Registration Successful",
@@ -46,7 +46,7 @@ export default function Register() {
                     navigate("/login");
                 });
             } else {
-                setErrMsg(data.message || "Registration failed");
+                setErrMsg(response.message || "Registration failed");
             }
         }).catch(err => {
             Swal.fire({
