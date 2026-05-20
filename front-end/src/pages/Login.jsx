@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router';
 import { login } from '../services/authService';
+import Swal from "sweetalert2";
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -15,12 +16,21 @@ export default function Login() {
         if (email.trim() !== "" && password.trim() !== "") {
             login(email, password).then((data) => {
                 if (data.success) {
-                    navigate("/dashboard");
+                    Swal.fire({
+                        icon:"success",
+                        text:"login successful.",
+                        timer:2000,  
+                    }).then(() => {
+                        navigate("/dashboard");
+                    });
                 } else {
                     setErrMsg(data.message);
                 }
             }).catch(err => {
-                console.log(err);
+                Swal.fire({
+                    icon:"error",
+                    text: "Something went wrong"
+                });
             }).finally(() => {
                 setLoading(false);
             });
