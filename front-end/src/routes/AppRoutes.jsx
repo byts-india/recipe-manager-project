@@ -3,9 +3,9 @@ import Home from "../pages/Home";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
-import DashboardLayout from "../../../back-end/src/layouts/DashboardLayout";
 import PrivateRoutes from "./PrivateRoutes";
 import Settings from "../pages/Settings";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 function AppRoutes() {
     return (

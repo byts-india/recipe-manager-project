@@ -19,7 +19,7 @@ export default function PrivateRoutes({ children }) {
         </p>
         <Link
           to="/login"
-          className="inline-block px-6 py-2 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 transition"
+          className="inline-block px-6 py-2 bg-orange-600 text-white font-medium rounded hover:bg-orange-700 transition"
         >
           Go to Login
         </Link>

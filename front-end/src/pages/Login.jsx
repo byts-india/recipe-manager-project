@@ -24,6 +24,7 @@ export default function Login() {
                         text:"login successful.",
                         timer:2000,  
                     }).then(() => {
+                        localStorage.setItem("token", response.token);
                         dispatch(userLogin(response.data));
                         navigate("/dashboard");
                     });
@@ -93,7 +94,7 @@ export default function Login() {
                         {errMsg && <p className='text-red-400'>{errMsg}</p>}
                         <hr />
                         <p className='text-center'>
-                            Don't have an account, 
+                            Don't have an account,  
                             <Link to="/register" >
                                 <span className='text-orange-600 hover:text-orange-700 font-semibold'>register</span>
                             </Link>
