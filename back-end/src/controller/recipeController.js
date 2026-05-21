@@ -3,6 +3,10 @@ const { successResponse, failureResponse } = require("../utils/ResponseUtil");
 
 module.exports.create = async (req, res) => {
   try {
+    // If an image was uploaded, store its filename in the payload
+    if (req.file) {
+      req.body.image = req.file.filename;
+    }
     const createdRecipe = await recipeService.createRecipe(req.body);
     successResponse(res, "recipe created", createdRecipe, 201);
   } catch (error) {
@@ -33,6 +37,9 @@ module.exports.getById = async (req, res) => {
 
 module.exports.update = async (req, res) => {
   try {
+    if (req.file) {
+      req.body.image = req.file.filename;
+    }
     const updatedRecipe = await recipeService.updateRecipe(req.params.id, req.body);
     if (!updatedRecipe) {
       return failureResponse(res, "recipe not found", 404);

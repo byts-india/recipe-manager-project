@@ -8,6 +8,7 @@ import Settings from "../pages/Settings";
 import DashboardLayout from "../layouts/DashboardLayout";
 import BannerLayout from "../layouts/BannerLayout";
 import ViewRecipe from "../pages/ViewRecipe";
+import AddNewRecipe from "../pages/AddNewRecipe";
 
 function AppRoutes() {
     return (
@@ -26,6 +27,7 @@ function AppRoutes() {
             >
                 <Route index element={<Dashboard />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="add-recipe" element={<AddNewRecipe />} />
                 <Route path="recipe/:id" element={<ViewRecipe />} />
 
             </Route>

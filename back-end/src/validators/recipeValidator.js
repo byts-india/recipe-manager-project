@@ -15,9 +15,7 @@ const recipeSchema = Joi.object({
       "any.only": "units must be either 'hour' or 'minutes'",
     }),
   }),
-  image: Joi.string().uri().optional().messages({
-    "string.uri": "image must be a valid URL",
-  }),
+  image: Joi.string().optional(),
   ingredients: Joi.array().items(Joi.string()).optional(),
   category_id: objectId.optional(),
   steps: Joi.array().items(objectId).optional(),

@@ -8,13 +8,16 @@ const recipeRoute = require("./routes/recipeRoutes");
 const recipeCategoryRoute = require("./routes/recipeCategoryRoutes");
 const stepsRoute = require("./routes/stepsRoutes");
 const verifyJwt = require("./middleware/verifyJwt");
+const { commonLimiter } = require("./middleware/rateLimiters");
 
 const app = express();
 
 app.use(morgan("dev"));
 app.use(express.static("public"));
+app.use("/uploads", express.static("uploads"));
 app.use(cors({ origin: "*" }));
 app.use(express.json());
+app.use(commonLimiter);
 
 app.get("/health", (req, res) => {
   res.send("SERVER IS RUNNING HEALTHY 💊");
