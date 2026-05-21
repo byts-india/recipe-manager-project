@@ -5,7 +5,8 @@ import heroImg from './assets/hero.png'
 import './App.css'
 import AppRoutes from './routes/AppRoutes'
 import { Provider } from 'react-redux'
-import store from './app/store'
+import store from './store/store'
+
 
 function App() {
   const [count, setCount] = useState(0)
