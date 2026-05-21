@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router';
 import { login } from '../services/authService';
 import Swal from "sweetalert2";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { userLogin } from '../features/auth/authSlice';
 
 export default function Login() {
